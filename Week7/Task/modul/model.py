@@ -57,10 +57,11 @@ class boostraping:
         for x in range(self.rows):
             list_2=[]
             for y in range(self.k):
-                list_2.apppend(r.sample(self.data,1))
-            variance=np.variance(list_2)
-            var_resample=np.mean(list_1)
-            return var_resample
+                list_2.append(r.sample(self.data,1))
+            var_sample=np.var(list_2)
+            list_1.append(var_sample)
+        var_resample=np.mean(list_1)
+        return list_1,var_resample
     def median_bootrap(self):
         dummy_1=[]
         median_true=np.repeat(np.median(self.data),self.rows)
