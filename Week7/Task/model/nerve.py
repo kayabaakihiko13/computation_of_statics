@@ -19,6 +19,8 @@ class boostraping:
     FIX Peringkasan Algoritma
     '''     
     def model_resample(self):
+        if self.func==None:
+            raise ValueError ('bang kamu lupa masukin parameter function')
         dummy_1=[]
         true_value=np.repeat((self.func(self.data)),self.rows)
         print('Start Bootstarp'.center(30,'='))
@@ -49,7 +51,8 @@ def jackknife_stat(data,func,convince=.95):
     resamples = np.empty([n, n-1])
     for i in range(n):
         resamples[i] = np.delete(data, i)
-
+    if func==None:
+        raise ValueError('Lupa masukin functionnya')
     
     if not (0<convince<1):
         raise ValueError('tidak bisa')
