@@ -71,7 +71,7 @@ def jackknife_stat(data,func,convince=.95):
     z_score = np.sqrt(2.0)*erfinv(convince)
     convince = estimate + z_score*np.array((-std_err, std_err))
 
-    return estimate, bias, std_err, convince
+    return resamples,estimate, bias, std_err, convince
 
 
     
