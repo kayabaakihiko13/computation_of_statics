@@ -1,13 +1,22 @@
+from time import time
 import numpy as np
 from sklearn.metrics import mean_absolute_error
 import random as r
 import scipy.stats as st
+
 class boostraping:
     '''
     Refences:
     https://www.uvm.edu/~statdhtx/StatPages/Randomization%20Tests/BootstMedians/bootstrapping_medians.html
     '''
     def __init__(self,data:list,rows=100,k=2,func=None,alpha=.05) :
+        '''
+        data is for sampling
+        rows for length row 
+        k for length for column
+        func this for your mean sample
+        aplha is like covince
+        '''
         self.data=data
         self.rows=rows
         self.k=k
@@ -19,6 +28,7 @@ class boostraping:
     FIX Peringkasan Algoritma
     '''     
     def model_resample(self):
+        
         if self.func==None:
             raise ValueError ('bang kamu lupa masukin parameter function')
         dummy_1=[]
@@ -38,6 +48,12 @@ class boostraping:
         return dummy_1,mean_funct_resample,var_mean_funct_resample,mse_mean_funct_resample,ci_resample
 
 def jackknife_stat(data,func,convince=.95):
+    """
+    data,this parameter is sampling
+    func,this parameter for your mean are you mean
+    convince,this parameter value true zscore 
+
+    """
     "Data its Resample"
     '''
     Full Refence:
@@ -51,13 +67,16 @@ def jackknife_stat(data,func,convince=.95):
     resamples = np.empty([n, n-1])
     for i in range(n):
         resamples[i] = np.delete(data, i)
+
     if func==None:
         raise ValueError('Lupa masukin functionnya')
     
     if not (0<convince<1):
         raise ValueError('tidak bisa')
+
     if n<=0:
         raise ValueError('data must contain at least one measurement.')
+
     # import erfinv
     from scipy.special import erfinv
     stat_data = func(data)
