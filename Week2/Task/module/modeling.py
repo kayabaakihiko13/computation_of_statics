@@ -1,5 +1,12 @@
+def rank(number,order):
+        return number**order
+    # make square
+def sqrt(number,order):
+    return number ** (1/order)
 class statistic:
     # Make Module Own Mean,Median,Modus,variation,covariace and correlation
+    
+    
     def _mean(data:list):
         _sum=0
         count_lenght=0
@@ -8,6 +15,7 @@ class statistic:
             count_lenght+=1
         result=_sum/count_lenght
         return result
+
     def median_val(data:list):
         # first must be sorted from smallest to biggest
         """
@@ -26,6 +34,7 @@ class statistic:
             index=[int((n/2)+int((n/2)+1))]
             result=dummy[index[0]:index[1]+1]
         return result
+
     def _mode(data:list):
         # first data be sort from smallest to biggest
         # dummy data variabel
@@ -34,13 +43,15 @@ class statistic:
         while index<len(data):
             dummy_data.append(data.count(data[index]))
             index+=1
-        _combine=dict(zip(data,dummy_data))
-        lst=[a for (a,b) in _combine.items() if b ==max(dummy_data)]
+        combine=dict(zip(data,dummy_data))
+        lst=[a for (a,b) in combine.items() if b ==max(dummy_data)]
         result=[]
         min_value=lst[0]
+        count=0
         for x in lst:
             if x<min_value:
                 min_value=x
+                count+=1
         result.append(min_value)
         lst.remove(min_value)
         if result == 0:
@@ -48,7 +59,8 @@ class statistic:
         else:
         # apabila hasilnya 0,maka hasilnya tidak ada yang banyak alias jumlah frequensy item sama banyak
             pass
-        return result
+        return f'mode=array({[f"{i:.8f}" for i in result]}) count=array({count})'
+
     def _variation(data:list):
         """In probability theory and statistics, variance is the expectation of the squared deviation of a random variable from its population mean or sample mean. Variance is a measure of dispersion, meaning it is a measure of how far a set of numbers is spread out from their average value"""
         _sum=0
@@ -58,21 +70,32 @@ class statistic:
             count+=1
         result=_sum/(count-1)
         return result
-    def standard(data):
+
+    def standard(data,axis=0):
         """
         data type of data parameter is list
+        axis 0 and 1.0 for population 1 for sample
         """
-        X=[(x-statistic._mean(data))**2 for x in data]
-        n_population=len(data)
-    
-        formula=sum(X)/n_population
+        if axis == 0:
+            X=[(x-statistic._mean(data))**2 for x in data]
+            n_population=len(data)
         
-        return pow(formula,1/2)
+            formula=sum(X)/n_population
+            
+            return statistic.rank(formula,1/2)
+        elif axis == 1:
+            X=[(x-statistic._mean(data))**2 for x in data]
+            n_population=len(data)-1
+        
+            formula=sum(X)/n_population
+        else :
+            raise ValueError ('put your axis')
+
     def z_score(data):
         # first elimination betwean number to mean of data
         # second from first step division with standard deviation
-        result=[float(f'{(x-statistic._mean(data))/statistic.standard(data):.7f}') for x in data]
-        return 'array {}'.format(result)
+        result=[float(f'{(x-statistic._mean(data))/statistic.standard(data):.9f}') for x in data]
+        return print('array',tuple(result))
         
     def _cov(x:list,y:list):
         # is like _variation
@@ -85,8 +108,9 @@ class statistic:
         numberic=sum([x_sub[a]*y_sub[a] for a in range(n)])
         result=numberic/(n-1)
         return result
+
     def _correlation(x:list,y:list):
-        result=statistic._cov(x,y)/pow((statistic._variation(x)*statistic._variation(y)),0.5)
+        result=statistic._cov(x,y)/statistic.rank((statistic._variation(x)*statistic._variation(y)),0.5)
         return result
 
 
