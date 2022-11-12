@@ -59,8 +59,21 @@ class statistic:
         result=_sum/(count-1)
         return result
     def standard(data):
-        formula=(sum((data-statistic._mean(data)**2)))/(len(data)-1)
-        return pow(formula,.5)
+        """
+        data type of data parameter is list
+        """
+        X=[(x-statistic._mean(data))**2 for x in data]
+        n_population=len(data)
+    
+        formula=sum(X)/n_population
+        
+        return pow(formula,1/2)
+    def z_score(data):
+        # first elimination betwean number to mean of data
+        # second from first step division with standard deviation
+        result=[float(f'{(x-statistic._mean(data))/statistic.standard(data):.7f}') for x in data]
+        return 'array {}'.format(result)
+        
     def _cov(x:list,y:list):
         # is like _variation
         # for mean we call function _mean()
