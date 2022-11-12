@@ -58,6 +58,9 @@ class statistic:
             count+=1
         result=_sum/(count-1)
         return result
+    def standard(data):
+        formula=(sum((data-statistic._mean(data)**2)))/(len(data)-1)
+        return pow(formula,.5)
     def _cov(x:list,y:list):
         # is like _variation
         # for mean we call function _mean()
