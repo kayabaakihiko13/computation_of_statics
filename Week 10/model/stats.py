@@ -1,4 +1,5 @@
-from .math import *
+from model.math import *
+from numpy import array
 from random import random
 def random_uniform(low,high,size=None):
     if size==None:
@@ -6,8 +7,8 @@ def random_uniform(low,high,size=None):
     if size<0:
         raise ValueError('size not in real number on negative')
     else:
-        memo=[]
+        memo=[]# memory
         for i in range(size):
             result=low+(high-low)*random()
             memo.append(result)
-        return memo
+        return array(memo)
