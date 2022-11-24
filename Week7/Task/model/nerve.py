@@ -1,4 +1,3 @@
-from time import time
 import numpy as np
 from sklearn.metrics import mean_absolute_error
 import random as r
@@ -38,7 +37,7 @@ class boostraping:
             dummy_2=[]
             for b in range(self.k):
                 dummy_2.append(r.sample(self.data,1))
-            formula=self.func(dummy_2) # point terpenting
+            formula=self.func(dummy_2) # import point
             dummy_1.append(formula)
         mean_funct_resample=np.mean(dummy_1)
         var_mean_funct_resample=np.var(dummy_1)
@@ -84,13 +83,13 @@ def jackknife_stat(data,func,convince=.95):
     mean_jack_stat = np.mean(jack_stat, axis=0)
     bias = (n-1)*(mean_jack_stat - stat_data)
     std_err = np.sqrt((n-1)*np.mean((jack_stat - mean_jack_stat)*(jack_stat -
-                                    mean_jack_stat), axis=0))
+                                        mean_jack_stat), axis=0))
     estimate = stat_data - bias
 
     z_score = np.sqrt(2.0)*erfinv(convince)
     convince = estimate + z_score*np.array((-std_err, std_err))
 
-    return resamples,estimate, bias, std_err, convince
+    return resamples,mean_jack_stat,estimate, bias, std_err, convince
 
 
     

@@ -1,8 +1,13 @@
 def rank(number,order):
-        return number**order
+    if order==0:
+        return 1
+    return number**order
     # make square
 def sqrt(number,order):
+    if order==0:
+        return 1
     return number ** (1/order)
+    
 class statistic:
     # Make Module Own Mean,Median,Modus,variation,covariace and correlation
     
@@ -40,6 +45,7 @@ class statistic:
         # dummy data variabel
         dummy_data=[]
         index=0
+        # check count if count ==1 in all value
         while index<len(data):
             dummy_data.append(data.count(data[index]))
             index+=1
@@ -82,12 +88,13 @@ class statistic:
         
             formula=sum(X)/n_population
             
-            return statistic.rank(formula,1/2)
+            return rank(formula,1/2)
         elif axis == 1:
             X=[(x-statistic._mean(data))**2 for x in data]
             n_population=len(data)-1
         
             formula=sum(X)/n_population
+            return rank(formula,1/2)
         else :
             raise ValueError ('put your axis')
 
