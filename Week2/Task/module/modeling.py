@@ -10,9 +10,7 @@ def sqrt(number,order):
     
 class statistic:
     # Make Module Own Mean,Median,Modus,variation,covariace and correlation
-    
-    
-    def _mean(data:list):
+    def _mean(*data)->float:
         _sum=0
         count_lenght=0
         for a in data:
@@ -21,12 +19,13 @@ class statistic:
         result=_sum/count_lenght
         return result
 
-    def median_val(data:list):
+    def median_val(*data)->float:
         # first must be sorted from smallest to biggest
         """
         for paper/journal reference:
             https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/median/
         """
+        data=data.copy()
         data.sort()
         dummy=data
         n=len(data)
@@ -40,16 +39,16 @@ class statistic:
             result=dummy[index[0]:index[1]+1]
         return result
 
-    def _mode(data:list):
+    def _mode(*args)->float:
         # first data be sort from smallest to biggest
         # dummy data variabel
         dummy_data=[]
         index=0
         # check count if count ==1 in all value
-        while index<len(data):
-            dummy_data.append(data.count(data[index]))
+        while index<len(args):
+            dummy_data.append(args.count(args[index]))
             index+=1
-        combine=dict(zip(data,dummy_data))
+        combine=dict(zip(args,dummy_data))
         lst=[a for (a,b) in combine.items() if b ==max(dummy_data)]
         result=[]
         min_value=lst[0]
@@ -65,9 +64,9 @@ class statistic:
         else:
         # apabila hasilnya 0,maka hasilnya tidak ada yang banyak alias jumlah frequensy item sama banyak
             pass
-        return f'mode=array({[f"{i:.8f}" for i in result]}) count=array({count})'
+        return f'mode=array({[float(f"{i:.8f}") for i in result]}) count=array({count})'
 
-    def _variation(data:list):
+    def _variation(*data):
         """In probability theory and statistics, variance is the expectation of the squared deviation of a random variable from its population mean or sample mean. Variance is a measure of dispersion, meaning it is a measure of how far a set of numbers is spread out from their average value"""
         _sum=0
         count=0
@@ -77,7 +76,7 @@ class statistic:
         result=_sum/(count-1)
         return result
 
-    def standard(data,axis=0):
+    def standard(*data,axis=0):
         """
         data type of data parameter is list
         axis 0 and 1.0 for population 1 for sample
@@ -98,7 +97,7 @@ class statistic:
         else :
             raise ValueError ('put your axis')
 
-    def z_score(data):
+    def z_score(*data):
         # first elimination betwean number to mean of data
         # second from first step division with standard deviation
         result=[float(f'{(x-statistic._mean(data))/statistic.standard(data):.9f}') for x in data]
