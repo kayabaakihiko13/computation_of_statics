@@ -3,46 +3,23 @@ from sklearn.metrics import mean_absolute_error
 import random as r
 import scipy.stats as st
 
-class boostraping:
-    '''
-    Refences:
-    https://www.uvm.edu/~statdhtx/StatPages/Randomization%20Tests/BootstMedians/bootstrapping_medians.html
-    '''
-    def __init__(self,data:list,rows=100,k=2,func=None,alpha=.05) :
-        '''
-        data is for sampling
-        rows for length row 
-        k for length for column
-        func this for your mean sample
-        aplha is like covince
-        '''
-        self.data=data
-        self.rows=rows
-        self.k=k
-        self.alpha=alpha
-        self.func=func
-  
-
-    '''
-    FIX Peringkasan Algoritma
-    '''     
-    def model_resample(self):
+def model_resample(data:list,rows=100,k=2,func=None,alpha=.05):
         
-        if self.func==None:
+        if func==None:
             raise ValueError ('bang kamu lupa masukin parameter function')
         dummy_1=[]
-        true_value=np.repeat((self.func(self.data)),self.rows)
+        true_value=np.repeat((func(data)),rows)
         print('Start Bootstarp'.center(30,'='))
-        for a in range(self.rows):
+        for a in range(rows):
             dummy_2=[]
-            for b in range(self.k):
-                dummy_2.append(r.sample(self.data,1))
-            formula=self.func(dummy_2) # import point
+            for b in range(k):
+                dummy_2.append(r.sample(data,1))
+            formula=func(dummy_2) # import point
             dummy_1.append(formula)
         mean_funct_resample=np.mean(dummy_1)
         var_mean_funct_resample=np.var(dummy_1)
         mse_mean_funct_resample=mean_absolute_error(dummy_1,true_value)
-        ci_resample=[np.mean(self.data)-st.norm.ppf(1-self.alpha/2)*var_mean_funct_resample**.5,np.mean(self.data)+st.norm.ppf(1-self.alpha/2)*var_mean_funct_resample**.5]
+        ci_resample=[np.mean(data)-st.norm.ppf(1-alpha/2)*var_mean_funct_resample**.5,np.mean(data)+st.norm.ppf(1-alpha/2)*var_mean_funct_resample**.5]
         print('End Bootstarp'.center(30,'='))
         return dummy_1,mean_funct_resample,var_mean_funct_resample,mse_mean_funct_resample,ci_resample
 
